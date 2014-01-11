@@ -31,17 +31,18 @@ var TodoApp = React.createClass({
 
   handleDelete: function(item) {
     newItems = _.without(this.state.items, item);
-    setState({items: newItems});
+    this.setState({items: newItems});
     // console.debug(this.state.items);
   },
 
   render: function() {
     function createItem(item) {
-      return
+      return(
         <TodoItem
           item={item}
           handleCheck={this.handleCheck.bind(this, item)}
-          handleDelete={this.handleDelete.bind(this, item)} />;
+          handleDelete={this.handleDelete.bind(this, item)} />
+      );
     };
 
     return (
