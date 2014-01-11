@@ -2,7 +2,10 @@
 var TodoApp = React.createClass({
   getInitialState: function() {
     return {
-      items: [],
+      items: [
+        { text: "First item", checked: false },
+        { text: "Second item", checked: true }
+      ],
       text: ""
     };
   },
@@ -19,19 +22,22 @@ var TodoApp = React.createClass({
     this.setState({text: e.target.value});
   },
 
-  handleCheck: function(e) {
-    e.target.
+  handleCheck: function(item) {
+    // TODO: Сделать нормально
+    item.checked = !item.checked;
     this.setState({});
   },
 
   render: function() {
+    var _this = this
+    function createItem(item) {
+      return <TodoItem item={item} handleCheck={_this.handleCheck.bind(_this, item)}/>;
+    };
+
     return (
       <div>
         <h3>TodoList</h3>
 
-        function createItem(item) {
-          return <TodoItem item={item} handleCheck={this.handleCheck}/>
-        };
 
         <ul>
           {this.state.items.map(createItem)}
@@ -47,13 +53,14 @@ var TodoApp = React.createClass({
 });
 
 var TodoItem = React.createClass({
+
   render: function() {
+
     return (
       <li>
+        <button>Remove</button>
         <input type="checkbox" onChange={this.props.handleCheck} checked={this.props.item.checked} />
-        <span style="{if (this.props.item.checked) { 'text-decoration: line-through;' } }">
-          {this.props.item.text}
-        </span>
+        {this.props.item.text}
       </li>
     );
   }
