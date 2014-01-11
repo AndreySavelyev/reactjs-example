@@ -3,8 +3,8 @@ var TodoApp = React.createClass({
   getInitialState: function() {
     return {
       items: [
-        { text: "First item", checked: false },
-        { text: "Second item", checked: true }
+        { text: "First item", checked: false, id: 1 },
+        { text: "Second item", checked: true, id: 2 }
       ],
       text: ""
     };
@@ -13,8 +13,8 @@ var TodoApp = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
 
-    var nextItems = this.state.items.concat([{ text: this.state.text, checked: false }]);
-    
+    var nextItems = this.state.items.concat([{ text: this.state.text, checked: false, id: this.state.items.length }]);
+
     this.setState({ items: nextItems, text: ''});
   },
 
@@ -40,7 +40,7 @@ var TodoApp = React.createClass({
 
 
         <ul>
-          {this.state.items.map(createItem)}
+            {_.map(this.state.items, createItem, this )}
         </ul>
 
         <form onSubmit={this.handleSubmit}>
@@ -53,7 +53,6 @@ var TodoApp = React.createClass({
 });
 
 var TodoItem = React.createClass({
-
   render: function() {
 
     return (
