@@ -13,7 +13,7 @@ var TodoApp = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
 
-    var nextItems = this.state.items.concat([{ text: this.state.text, checked: false, id: this.state.items.length }]);
+    var nextItems = this.state.items.concat([{ text: this.state.text, checked: false, id: this.state.items.length, edit: false }]);
 
     this.setState({ items: nextItems, text: ''});
     console.debug(this.state.items);
@@ -35,12 +35,19 @@ var TodoApp = React.createClass({
     // console.debug(this.state.items);
   },
 
+  handleEdit: function(item) {
+    // TODO: Сделать нормально
+    item.edit = !item.edit;
+    this.setState({});
+  },
+
   render: function() {
     function createItem(item) {
       return(
         <TodoItem
           item={item}
           handleCheck={this.handleCheck.bind(this, item)}
+          handleEdit={this.handleEdit.bind(this, item)}
           handleDelete={this.handleDelete.bind(this, item)} />
       );
     };
@@ -69,15 +76,27 @@ var TodoItem = React.createClass({
     var classes = cx({
       'completed': this.props.item.checked
     });
-    return (
-      <li>
-        <input type="checkbox" onChange={this.props.handleCheck} checked={this.props.item.checked} />
-        <span className={classes}>
-          {this.props.item.text}
-        </span>
-        <button onClick={this.props.handleDelete}>Remove</button>
-      </li>
-    );
+    if (this.props.item.edit) {
+      return (
+        <li>
+          <input type="checkbox" onChange={this.props.handleCheck} checked={this.props.item.checked} />
+          <form>
+            <input value={this.props.item.text} />
+            <button>Save</button>
+          </form>
+        </li>
+      );
+    } else {
+      return (
+        <li>
+          <input type="checkbox" onChange={this.props.handleCheck} checked={this.props.item.checked} />
+          <span className={classes} onClick={this.props.handleEdit}>
+            {this.props.item.text}
+          </span>
+          <button onClick={this.props.handleDelete}>Remove</button>
+        </li>
+      );
+    }
   }
 });
 
