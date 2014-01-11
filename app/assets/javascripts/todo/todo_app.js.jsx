@@ -16,6 +16,7 @@ var TodoApp = React.createClass({
     var nextItems = this.state.items.concat([{ text: this.state.text, checked: false, id: this.state.items.length }]);
 
     this.setState({ items: nextItems, text: ''});
+    console.debug(this.state.items);
   },
 
   onChange: function(e) {
@@ -28,10 +29,19 @@ var TodoApp = React.createClass({
     this.setState({});
   },
 
+  handleDelete: function(item) {
+    newItems = _.without(this.state.items, item);
+    setState({items: newItems});
+    // console.debug(this.state.items);
+  },
+
   render: function() {
-    var _this = this
     function createItem(item) {
-      return <TodoItem item={item} handleCheck={_this.handleCheck.bind(_this, item)}/>;
+      return
+        <TodoItem
+          item={item}
+          handleCheck={this.handleCheck.bind(this, item)}
+          handleDelete={this.handleDelete.bind(this, item)} />;
     };
 
     return (
@@ -54,12 +64,11 @@ var TodoApp = React.createClass({
 
 var TodoItem = React.createClass({
   render: function() {
-
     return (
       <li>
-        <button>Remove</button>
         <input type="checkbox" onChange={this.props.handleCheck} checked={this.props.item.checked} />
         {this.props.item.text}
+        <button onClick={this.props.handleDelete}>Remove</button>
       </li>
     );
   }
