@@ -1,5 +1,7 @@
 Reactjs::Application.configure do
   config.react.variant = :development
+  config.react.addons = true
+
 
   # Settings specified here will take precedence over those in config/application.rb.
 

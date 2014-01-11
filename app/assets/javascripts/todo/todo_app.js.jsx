@@ -65,10 +65,16 @@ var TodoApp = React.createClass({
 
 var TodoItem = React.createClass({
   render: function() {
+    var cx = React.addons.classSet;
+    var classes = cx({
+      'completed': this.props.item.checked
+    });
     return (
       <li>
         <input type="checkbox" onChange={this.props.handleCheck} checked={this.props.item.checked} />
-        {this.props.item.text}
+        <span className={classes}>
+          {this.props.item.text}
+        </span>
         <button onClick={this.props.handleDelete}>Remove</button>
       </li>
     );
